@@ -1,12 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Веб-разработка | Анастасия М</title>
+  <!-- Фавиконка -->
+  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <!-- Google Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  
+  <div class="cursor" id="cursor"></div>
+
+  <div class="toggle" onclick="toggleTheme()">
+    <span class="material-symbols-outlined">dark_mode</span>
+  </div>
+
+  <div class="lang" onclick="toggleLang()">
+    <span class="material-symbols-outlined">language</span>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <p data-i18n="name">Анастасия М</p>
+      <h1 class="hero__title" data-i18n="title">Создаю сайты и веб-приложения, которые приносят заявки</h1>
+      <p class="hero__subtitle" data-i18n="subtitle">На Tilda и с кастомной разработкой — без шаблонной скуки и с
+        продуманной логикой</p>
+      <p class="hero__subtitle" data-i18n="desc">
+        Помогаю запустить сайт с нуля или довести до результата: быстрее, понятнее и без лишнего кода
+      </p>
+      <br>
+      <a href="https://t.me/asyalapa" target="_blank" class="btn" data-i18n="write">Обсудить проект</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" data-i18n="services">Услуги</h2>
+      <div class="grid">
+        <div class="card tree-column"><span class="icon">language</span>
+          <h3 class="card__title" data-i18n="service_full_site_title">Создание сайта под ключ</h3>
+          <p class="card__desc" data-i18n="service_full_site_desc">От структуры до запуска — лендинг, многостраничник
+            или интернет-витрина</p>
+        </div>
+        <div class="card tree-column"><span class="icon">web</span>
+          <h3 class="card__title" data-i18n="service_tilda_title">Сайты на Tilda</h3>
+          <p class="card__desc" data-i18n="service_tilda_desc">Собираю сайты на Tilda с нуля или дорабатываю
+            существующие — без шаблонной скуки и с продуманной логикой</p>
+        </div>
+        <div class="card tree-column"><span class="icon">code</span>
+          <h3 class="card__title" data-i18n="service_layout_title">Верстка</h3>
+          <p class="card__desc" data-i18n="service_layout_desc">Аккуратная адаптивная верстка, которая нормально
+            работает, а не «почти»</p>
+        </div>
+        <div class="card tree-column"><span class="icon">build</span>
+          <h3 class="card__title" data-i18n="service_development_title">Доработка сайтов</h3>
+          <p class="card__desc" data-i18n="service_development_desc">Исправлю баги, ускорю загрузку, добавлю новый
+            функционал</p>
+        </div>
+        <div class="card tree-column"><span class="icon">settings</span>
+          <h3 class="card__title" data-i18n="service_support_title">Поддержка</h3>
+          <p class="card__desc" data-i18n="service_support_desc">Обновления, правки, помощь после запуска — без игнора
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" data-i18n="portfolio">Портфолио</h2>
+      <div class="grid">
+        <div class="card tree-column">
+          <span class="icon">code</span>
+          <h3 data-i18n="portfolio_project_title">Веб-приложение с кастомным UI</h3>
+          <p class="card__desc" data-i18n="portfolio_desc">Реализован переключатель тем, адаптивный интерфейс и продуманная логика
+            взаимодействия</p>
+          <ul class="portfolio-list">
+            <li class="card__desc" data-i18n="portfolio_li_1">Адаптив под все устройства</li>
+            <li class="card__desc" data-i18n="portfolio_li_2">Оптимизация загрузки</li>
+            <li class="card__desc" data-i18n="portfolio_li_3">Чистый и понятный интерфейс</li>
+          </ul>
+          <a href="./index.html" target="_blank" class="btn" data-i18n="view_project">Смотреть проект</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" data-i18n="why">Почему я</h2>
+      <div class="grid">
+        <div class="card tree-column"><span class="icon">schedule</span>
+          <h3 class="card__title" data-i18n="why_fast_title">Быстрое выполнение</h3>
+          <p class="card__desc" data-i18n="why_fast_desc">Не тяну сроки неделями — даю понятные дедлайны и соблюдаю их
+          </p>
+        </div>
+        <div class="card tree-column"><span class="icon">bolt</span>
+          <h3 class="card__title" data-i18n="why_simple_title">Без лишней сложности</h3>
+          <p class="card__desc" data-i18n="why_simple_desc">Не нагружаю проект ненужными решениями — только то, что
+            реально нужно</p>
+        </div>
+        <div class="card tree-column"><span class="icon">chat</span>
+          <h3 class="card__title" data-i18n="why_online_title">Всегда на связи</h3>
+          <p class="card__desc" data-i18n="why_online_desc">Отвечаю без игнора, объясняю простым языком</p>
+        </div>
+        <div class="card tree-column"><span class="icon">favorite</span>
+          <h3 class="card__title" data-i18n="why_myself_title">Делаю как для себя</h3>
+          <p class="card__desc" data-i18n="why_myself_desc">Не «на отвали», а чтобы сайт реально работал и выглядел
+            нормально</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" data-i18n="price">Стоимость</h2>
+      <div class="grid">
+        <div class="card tree-column"><span class="icon">build</span>
+          <h3 class="card__title" data-i18n="price_rework_title">Доработка</h3>
+          <div class="price" data-i18n="price_rework_value">от 1000 ₽</div>
+          <p class="card__desc" data-i18n="price_rework_desc">(зависит от объема задач)</p>
+        </div>
+        <div class="card tree-column"><span class="icon">language</span>
+          <h3 class="card__title" data-i18n="price_site_title">Создание сайта</h3>
+          <div class="price" data-i18n="price_site_value">от 5000 ₽</div>
+          <p class="card__desc" data-i18n="price_site_desc">(структура, дизайн, адаптация)</p>
+        </div>
+        <div class="card tree-column"><span class="icon">settings</span>
+          <h3 class="card__title" data-i18n="price_support_title">Поддержка</h3>
+          <div class="price" data-i18n="price_support_value">по договорённости</div>
+          <p class="card__desc" data-i18n="price_support_desc">(разовые задачи или абонентка)</p>
+        </div>
+      </div>
+      <p class="note" data-i18n="price_note">Точную стоимость рассчитываю после обсуждения задачи</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" data-i18n="how_it_works">Как проходит работа</h2>
+      <div class="grid">
+        <div class="card four-column">
+          <span class="icon">chat</span>
+          <h3 class="card__title" data-i18n="step_1_title">Обсуждаем задачу</h3>
+          <p class="card__desc" data-i18n="step_1_desc">Уточняю цели, задачи и пожелания по проекту</p>
+        </div>
+        <div class="card four-column">
+          <span class="icon">assignment</span>
+          <h3 class="card__title" data-i18n="step_2_title">Предлагаю решение и сроки</h3>
+          <p class="card__desc" data-i18n="step_2_desc">Готовлю план работ, озвучиваю стоимость и дедлайны</p>
+        </div>
+        <div class="card four-column">
+          <span class="icon">code</span>
+          <h3 class="card__title" data-i18n="step_3_title">Делаю и показываю результат</h3>
+          <p class="card__desc" data-i18n="step_3_desc">Разрабатываю сайт, демонстрирую промежуточные этапы</p>
+        </div>
+        <div class="card four-column">
+          <span class="icon">rocket_launch</span>
+          <h3 class="card__title" data-i18n="step_4_title">Вносим правки и запускаем</h3>
+          <p class="card__desc" data-i18n="step_4_desc">Корректируем детали и публикуем проект</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="section__title" data-i18n="contacts">Контакты</h2>
+      <p class="section__subtitle" data-i18n="contacts_desc">Напишите мне в Telegram — отвечу, задам пару вопросов и скажу, как лучше реализовать
+        ваш проект</p>
+      <div class="grid">
+        <a href="https://t.me/asyalapa" class="card contacts__link">
+          <span class="icon">send</span>
+        </a>
+        <a href="mailto:asyalapa@mail.ru" class="card contacts__link">
+          <span class="icon">mail</span>
+        </a>
+      </div>
+      <p class="note" data-i18n="contacts_footer">Работаю аккуратно, соблюдаю сроки и всегда довожу задачу до результата</p>
+    </div>
+  </section>
+
+  <a href="https://t.me/asyalapa_bot" class="floating-tg">
+    <span class="material-symbols-outlined">send</span>
+  </a>
+
+  <footer class="footer">
+    <p>© Asyalapa, 2026</p>
+  </footer>
+
+  <script src="index.js"></script>
 </body>
+
 </html>
