@@ -7,7 +7,7 @@ node_modules/
 
 # Сборка
 dist/
-css/
+# css/
 
 # Логи
 *.log
