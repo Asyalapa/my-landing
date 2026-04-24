@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  root: '.', // текущая папка
+  base: '/my-landing/',
+  root: '.',
   build: {
     minify: 'esbuild',
     outDir: 'dist',
