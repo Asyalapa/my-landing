@@ -1,13 +1,19 @@
-const express = require('express');
-const { Telegraf } = require('telegraf');
-const dotenv = require('dotenv');
+import express from 'express';
+import { Telegraf } from 'telegraf';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Получаем __dirname в ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));  // Говорит Express: "ищи файлы в текущей папке"
+app.use(express.static(__dirname)); // Говорит Express: "ищи файлы в текущей папке"
 
 // ========== НАСТРОЙКИ (ЗАМЕНИТЕ НА СВОИ) ==========
 const BOT_TOKEN = process.env.BOT_TOKEN || 'ВАШ_ТОКЕН_ОТ_BOTFATHER';
@@ -18,6 +24,11 @@ const bot = new Telegraf(BOT_TOKEN);
 
 // Хранилище состояний диалога (в продакшене лучше использовать Redis)
 const userStates = new Map();
+
+// Кэширование статики (1 год для изображений, 1 день для CSS/JS)
+app.use('/images', express.static(path.join(__dirname, 'images'), { maxAge: '365d' }));
+app.use('/css', express.static(path.join(__dirname, 'css'), { maxAge: '1d' }));
+app.use(express.static(__dirname, { maxAge: '1d' }));
 
 // ------------------- КОМАНДЫ БОТА В TELEGRAM -------------------
 
@@ -129,7 +140,7 @@ bot.on('text', async (ctx) => {
     return ctx.reply('📞 Как с вами удобно связаться?', {
       reply_markup: {
         keyboard: [
-          [{ text: '📱 Отправить номер телефона', request_contact: true }, { text: '✏️ Написать вручную' }],  // ← Кнопка с номером
+          [{ text: '📱 Отправить номер телефона', request_contact: true }, { text: '✏️ Написать вручную' }],
           [{ text: '❌ Отменить' }]
         ],
         resize_keyboard: true

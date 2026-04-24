@@ -1,10 +1,37 @@
-function toggleTheme() { document.body.classList.toggle('light'); }
+// ==============================
+// CONFIG / STATE
+// ==============================
 
-let currentLang = 'ru';
-const t = {
+const AppState = {
+  currentLang: 'ru',
+  lastScrollTop: 0,
+  scrollTimer: null,
+  isTicking: false
+};
+
+const SELECTORS = {
+  section: '.section',
+  icon: '.icon',
+  lazyImage: 'img[data-src]',
+  toggleBtn: '.toggle',
+  langBtn: '.lang',
+  cursor: '#cursor'
+};
+
+const STORAGE_KEYS = {
+  lang: 'app_lang',
+  theme: 'app_theme'
+};
+
+
+// ==============================
+// I18N (Translations)
+// ==============================
+
+const translations = {
   ru: {
     name: 'Анастасия М',
-    title: 'Создаю сайты и веб- приложения, которые приносят заявки',
+    title: 'Создаю сайты и веб-приложения, которые приносят заявки',
     subtitle: 'На Tilda и с кастомной разработкой — без шаблонной скуки и с продуманной логикой',
     desc: 'Помогаю запустить сайт с нуля или довести до результата: быстрее, понятнее и без лишнего кода',
     write: 'Обсудить проект',
@@ -12,7 +39,7 @@ const t = {
     service_development_title: 'Доработка сайтов',
     service_development_desc: 'Исправлю баги, ускорю загрузку, добавлю новый функционал',
     service_full_site_title: 'Создание сайта под ключ',
-    service_full_site_desc: 'От структуры до запуска — лендинг, многостраничник или интернет- витрина',
+    service_full_site_desc: 'От структуры до запуска — лендинг, многостраничник или интернет-витрина',
     service_support_title: 'Поддержка',
     service_support_desc: 'Обновления, правки, помощь после запуска — без игнора',
     service_layout_title: 'Верстка',
@@ -20,7 +47,7 @@ const t = {
     service_tilda_title: 'Сайты на Tilda',
     service_tilda_desc: 'Собираю сайты на Tilda с нуля или дорабатываю существующие',
     portfolio: 'Портфолио',
-    portfolio_project_title: 'Веб - приложение с кастомным UI',
+    portfolio_project_title: 'Веб-приложение с кастомным UI',
     portfolio_desc: 'Реализован переключатель тем, адаптивный интерфейс и продуманная логика взаимодействия',
     portfolio_li_1: 'Адаптив под все устройства',
     portfolio_li_2: 'Оптимизация загрузки',
@@ -118,72 +145,341 @@ const t = {
   }
 };
 
-function toggleLang() {
-  currentLang = currentLang === 'ru' ? 'en' : 'ru';
+
+// ==============================
+// GLOBAL FUNCTIONS (для onclick)
+// ==============================
+
+// Обновление иконки темы
+function updateThemeIcon() {
+  const themeIcon = document.getElementById('theme-icon');
+  if (!themeIcon) return;
+  
+  const isLight = document.body.classList.contains('light');
+  themeIcon.textContent = isLight ? 'light_mode' : 'dark_mode';
+}
+
+window.toggleTheme = function() {
+  const isLight = document.body.classList.toggle('light');
+  localStorage.setItem(STORAGE_KEYS.theme, isLight ? 'light' : 'dark');
+  updateThemeIcon(); // ← добавить эту строку
+};
+
+// Обновление метки языка
+function updateLangLabel() {
+  const langLabel = document.getElementById('lang-label');
+  if (!langLabel) return;
+  
+  langLabel.textContent = AppState.currentLang === 'ru' ? 'RU' : 'EN';
+}
+
+window.toggleLanguage = function() {
+  AppState.currentLang = AppState.currentLang === 'ru' ? 'en' : 'ru';
+  localStorage.setItem(STORAGE_KEYS.lang, AppState.currentLang);
+  applyTranslations();
+  updateLangLabel(); // ← добавить эту строку
+};
+
+window.scrollToTop = function () {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.scrollToBottom = function () {
+  window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+};
+
+
+// ==============================
+// HELPERS
+// ==============================
+
+function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    el.textContent = t[currentLang][el.dataset.i18n];
+    const key = el.dataset.i18n;
+    if (translations[AppState.currentLang]?.[key]) {
+      el.textContent = translations[AppState.currentLang][key];
+    }
   });
 }
 
-// Анимация появления секций
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { 
-    if (e.isIntersecting) e.target.classList.add('visible'); 
+function detectBrowserLanguage() {
+  const lang = navigator.language.slice(0, 2);
+  return translations[lang] ? lang : 'ru';
+}
+
+function initLanguage() {
+  const savedLang = localStorage.getItem(STORAGE_KEYS.lang);
+  if (savedLang && translations[savedLang]) {
+    AppState.currentLang = savedLang;
+  } else {
+    AppState.currentLang = detectBrowserLanguage();
+  }
+  applyTranslations();
+  updateLangLabel();
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem(STORAGE_KEYS.theme);
+  if (savedTheme === 'light') {
+    document.body.classList.add('light');
+  } else {
+    document.body.classList.remove('light');
+  }
+  updateThemeIcon();
+}
+
+
+// ==============================
+// SCROLL UI (Buttons visibility)
+// ==============================
+
+function hideControls() {
+  document.querySelector(SELECTORS.toggleBtn)?.classList.add('hide');
+  document.querySelector(SELECTORS.langBtn)?.classList.add('hide');
+}
+
+function showControls() {
+  document.querySelector(SELECTORS.toggleBtn)?.classList.remove('hide');
+  document.querySelector(SELECTORS.langBtn)?.classList.remove('hide');
+}
+
+function handleScrollUI() {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  clearTimeout(AppState.scrollTimer);
+
+  if (scrollTop > AppState.lastScrollTop && scrollTop > 50) {
+    AppState.scrollTimer = setTimeout(hideControls, 100);
+  } else {
+    showControls();
+  }
+  AppState.lastScrollTop = scrollTop;
+}
+
+function handleTopHover(e) {
+  if (e.clientY < 50) showControls();
+}
+
+
+// ==============================
+// PARALLAX
+// ==============================
+
+function updateParallax() {
+  const scrolled = window.pageYOffset;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = maxScroll ? scrolled / maxScroll : 0;
+  const offset = -20 + (progress * 20);
+  document.body.style.setProperty('--parallax-top', `${offset}%`);
+}
+
+function handleParallaxScroll() {
+  if (!AppState.isTicking) {
+    requestAnimationFrame(() => {
+      updateParallax();
+      AppState.isTicking = false;
+    });
+    AppState.isTicking = true;
+  }
+}
+
+
+// ==============================
+// CURSOR
+// ==============================
+
+function initCursor() {
+  const cursor = document.querySelector(SELECTORS.cursor);
+  if (!cursor) return;
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
   });
-});
-document.querySelectorAll('.section').forEach(s => observer.observe(s));
+}
 
-// Курсор
-const cursor = document.getElementById('cursor');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
 
-// Скрытие кнопок темы и языка при скролле
-let lastScrollTop = 0;
-let scrollTimer;
-const toggle = document.querySelector('.toggle');
-const lang = document.querySelector('.lang');
-const hideOffset = 50; // На сколько пикселей скролла скрывать кнопки
+// ==============================
+// LAZY IMAGES
+// ==============================
 
-function hideButtons() {
-  if (toggle && lang) {
-    toggle.classList.add('hide');
-    lang.classList.add('hide');
+function initLazyImages() {
+  const images = document.querySelectorAll(SELECTORS.lazyImage);
+  if (!images.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const img = entry.target;
+      const src = img.dataset.src;
+      if (src) {
+        img.src = src;
+        img.removeAttribute('data-src');
+        img.classList.add('loaded');
+      }
+      obs.unobserve(img);
+    });
+  }, {
+    rootMargin: '100px',
+    threshold: 0.01
+  });
+
+  images.forEach(img => observer.observe(img));
+}
+
+
+// ==============================
+// LAZY ICONS
+// ==============================
+
+function initLazyIcons() {
+  const icons = document.querySelectorAll(SELECTORS.icon);
+  if (!icons.length) return;
+
+  const showIcons = () => icons.forEach(icon => icon.classList.add('loaded'));
+
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => setTimeout(showIcons, 50));
+  } else {
+    setTimeout(showIcons, 200);
   }
 }
 
-function showButtons() {
-  if (toggle && lang) {
-    toggle.classList.remove('hide');
-    lang.classList.remove('hide');
+
+// ==============================
+// SECTION ANIMATIONS
+// ==============================
+
+function initSectionAnimations() {
+  const sections = document.querySelectorAll(SELECTORS.section);
+  if (!sections.length) return;
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      obs.unobserve(entry.target);
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px 50px'
+  });
+
+  sections.forEach(section => observer.observe(section));
+}
+
+
+// ==============================
+// SCROLL BUTTONS VISIBILITY
+// ==============================
+
+function handleScrollButtons() {
+  const topBtn = document.querySelector('.scroll-top');
+  const bottomBtn = document.querySelector('.scroll-bottom');
+  if (!topBtn || !bottomBtn) return;
+
+  const scrollTop = window.scrollY;
+  const maxScroll = document.body.scrollHeight - window.innerHeight;
+
+  if (scrollTop > 300) {
+    topBtn.classList.add('visible');
+  } else {
+    topBtn.classList.remove('visible');
+  }
+
+  if (maxScroll - scrollTop > 300) {
+    bottomBtn.classList.add('visible');
+  } else {
+    bottomBtn.classList.remove('visible');
   }
 }
 
-window.addEventListener('scroll', function() {
-  let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-  
-  // Очищаем предыдущий таймер
-  clearTimeout(scrollTimer);
-  
-  if (scrollTop > lastScrollTop && scrollTop > hideOffset) {
-    // Скроллим вниз - скрываем с небольшой задержкой
-    scrollTimer = setTimeout(hideButtons, 100); // 100ms задержка перед скрытием
-  } else if (scrollTop < lastScrollTop) {
-    // Скроллим вверх - показываем сразу
-    showButtons();
-  } else if (scrollTop === 0) {
-    // В самом верху - показываем
-    showButtons();
-  }
-  
-  lastScrollTop = scrollTop;
+
+// ==============================
+// HORIZONTAL SCROLL (КАРУСЕЛЬ)
+// ==============================
+
+function initHorizontalScroll() {
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+  document.querySelectorAll('.grid').forEach(grid => {
+    if (isTouch) {
+      grid.style.overflowX = 'auto';
+      grid.style.overflowY = 'hidden';
+      grid.style.display = 'flex';
+      grid.style.flexWrap = 'nowrap';
+      grid.style.gap = '16px';
+      grid.style.padding = '20px 16px';
+      grid.style.margin = '0 -16px';
+      grid.style.scrollSnapType = 'x mandatory';
+      grid.style.webkitOverflowScrolling = 'touch';
+
+      grid.querySelectorAll('.card').forEach(card => {
+        card.style.flex = '0 0 280px';
+        card.style.scrollSnapAlign = 'start';
+      });
+    } else {
+      grid.style.overflowX = 'visible';
+      grid.style.display = 'flex';
+      grid.style.flexWrap = 'wrap';
+      grid.style.scrollSnapType = 'none';
+      grid.style.padding = '';
+      grid.style.margin = '';
+
+      grid.querySelectorAll('.card').forEach(card => {
+        card.style.flex = '';
+      });
+    }
+  });
+}
+
+
+// ==============================
+// LOADER
+// ==============================
+
+function initLoader() {
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    if (loader) {
+      setTimeout(() => loader.classList.add('hide'), 300);
+    }
+  });
+}
+
+
+// ==============================
+// INIT (ENTRY POINT)
+// ==============================
+
+function initApp() {
+  initTheme();
+  initLanguage();
+  initLoader();
+  initCursor();
+  initLazyImages();
+  initLazyIcons();
+  initSectionAnimations();
+  initHorizontalScroll();
+  updateParallax();
+}
+
+function bindEvents() {
+  window.addEventListener('scroll', handleScrollUI);
+  window.addEventListener('scroll', handleParallaxScroll);
+  window.addEventListener('scroll', handleScrollButtons);
+  document.addEventListener('mousemove', handleTopHover);
+  window.addEventListener('resize', () => initHorizontalScroll());
+}
+
+
+// ==============================
+// BOOTSTRAP
+// ==============================
+
+document.addEventListener('DOMContentLoaded', () => {
+  initApp();
+  bindEvents();
 });
 
-// Показываем кнопки при наведении мыши в верхнюю часть экрана (опционально)
-document.addEventListener('mousemove', function(e) {
-  if (e.clientY < 50) {
-    showButtons();
-  }
+window.addEventListener('load', () => {
+  initLazyIcons(); // fallback
 });

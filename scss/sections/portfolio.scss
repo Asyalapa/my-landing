@@ -1,0 +1,22 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.portfolio-list {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 16px;
+  margin-bottom: 20px;
+
+  li {
+    margin-bottom: 8px;
+    position: relative;
+    padding-left: 20px;
+
+    &::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+  }
+}

@@ -1,0 +1,12 @@
+@use "../variables" as v;
+
+body.light {
+  --bg: #{v.$bg-light};
+  --bg2: #{v.$bg2-light};
+  --text: #{v.$text-light};
+  --card: #{v.$card-light};
+  --border: #{v.$border-light};
+  --shadow-color: #{v.$shadow-light};
+  --accent: #{v.$accent};
+  --accent2: #{v.$accent2};
+}

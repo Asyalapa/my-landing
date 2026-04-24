@@ -1,0 +1,43 @@
+// ===== ЦВЕТА =====
+$accent: #64f5e9;
+$accent2: #f59464;
+$accent-rgb: 100, 245, 233;
+
+$bg-dark: #0f172a;
+$bg2-dark: #1e293b;
+$card-dark: rgba(255, 255, 255, 0.05);
+$border-dark: rgba(255, 255, 255, 0.2);
+
+$bg-light: #ffffff;
+$bg2-light: #f3f4f6;
+$card-light: rgba(0, 0, 0, 0.04);
+$border-light: rgba(0, 0, 0, 0.3);
+
+$text-dark: #ffffff;
+$text-light: #111827;
+
+$shadow-dark: rgba(255, 255, 255, 0.2);
+$shadow-light: rgba(0, 0, 0, 0.2);
+
+// ===== БРЕЙКПОИНТЫ =====
+$mobile: 450px;
+$tablet: 768px;
+$desktop: 1100px;
+
+// ===== ОТСТУПЫ =====
+$container-padding: 20px;
+$container-max-width: 1100px;
+$gap: 20px;
+$card-padding: 20px;
+$border-radius: 16px;
+
+// ===== АНИМАЦИИ =====
+$transition-fast: 0.2s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.6s ease;
+$transition-bounce: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ===== РАЗМЕРЫ =====
+$toggle-size: 44px;
+$floating-size: 60px;
+$cursor-size: 20px;

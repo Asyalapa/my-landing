@@ -1,0 +1,20 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.floating-tg {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: v.$floating-size;
+  height: v.$floating-size;
+  border-radius: 50%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  @include m.flex-center;
+  text-decoration: none;
+  color: #000;
+  z-index: 1000;
+
+  @include m.hover {
+    transform: scale(1.05);
+  }
+}

@@ -1,0 +1,19 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.cursor {
+  width: v.$cursor-size;
+  height: v.$cursor-size;
+  border-radius: 50%;
+  background: var(--accent);
+  position: fixed;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  opacity: 0.25;
+  z-index: 9999;
+
+  @include m.touch {
+    display: none;
+  }
+}

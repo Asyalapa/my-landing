@@ -1,201 +1,313 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Веб-разработка | Анастасия М</title>
+  <meta name="description"
+    content="Создаю сайты и веб-приложения, которые приносят заявки. Разработка на Tilda, верстка, поддержка и доработка сайтов.">
+
+  <!-- Preconnect для Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Асинхронная загрузка Material Icons -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap"
+    onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" rel="stylesheet">
+  </noscript>
+
   <!-- Фавиконка -->
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <!-- Google Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
-  <div class="cursor" id="cursor"></div>
-
-  <div class="toggle" onclick="toggleTheme()">
-    <span class="material-symbols-outlined">dark_mode</span>
+  <!-- Loader / Spinner -->
+  <div id="loader" class="loader">
+    <div class="spinner"></div>
   </div>
 
-  <div class="lang" onclick="toggleLang()">
-    <span class="material-symbols-outlined">language</span>
-  </div>
+  <!-- Декоративный курсусор (скрыт от скринридеров) -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
-  <section class="hero">
-    <div class="container">
-      <p data-i18n="name">Анастасия М</p>
-      <h1 class="hero__title" data-i18n="title">Создаю сайты и веб-приложения, которые приносят заявки</h1>
-      <p class="hero__subtitle" data-i18n="subtitle">На Tilda и с кастомной разработкой — без шаблонной скуки и с
-        продуманной логикой</p>
-      <p class="hero__subtitle" data-i18n="desc">
-        Помогаю запустить сайт с нуля или довести до результата: быстрее, понятнее и без лишнего кода
-      </p>
-      <br>
-      <a href="https://t.me/asyalapa" target="_blank" class="btn" data-i18n="write">Обсудить проект</a>
+  <!-- Шапка с навигацией (используем header) -->
+  <header class="site-header" aria-label="Главное меню">
+    <!-- Кнопка переключения темы -->
+    <div class="toggle" onclick="toggleTheme()" role="button" tabindex="0"
+      aria-label="Переключить тему (светлая/тёмная)" aria-live="polite">
+      <span class="material-symbols-outlined" id="theme-icon" aria-hidden="true">dark_mode</span>
     </div>
-  </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title" data-i18n="services">Услуги</h2>
-      <div class="grid">
-        <div class="card tree-column"><span class="icon">language</span>
-          <h3 class="card__title" data-i18n="service_full_site_title">Создание сайта под ключ</h3>
-          <p class="card__desc" data-i18n="service_full_site_desc">От структуры до запуска — лендинг, многостраничник
-            или интернет-витрина</p>
+    <!-- Кнопка переключения языка -->
+    <div class="lang" onclick="toggleLanguage()" role="button" tabindex="0"
+      aria-label="Переключить язык (русский/английский)" aria-live="polite">
+      <span class="lang-label" id="lang-label">RU</span>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <main id="main-content" tabindex="-1">
+    <!-- Hero секция -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="container">
+        <div class="hero__avatar">
+          <picture>
+            <source type="image/webp" srcset="./images/photo.webp">
+            <source type="image/png" srcset="./images/photo.png">
+            <img data-src="./images/photo.png"
+              src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='1'%20height='1'%20viewBox='0%200%201%201'%3E%3C/svg%3E"
+              alt="Фотография Анастасии М, веб-разработчика" class="hero__avatar-img" loading="lazy">
+          </picture>
         </div>
-        <div class="card tree-column"><span class="icon">web</span>
-          <h3 class="card__title" data-i18n="service_tilda_title">Сайты на Tilda</h3>
-          <p class="card__desc" data-i18n="service_tilda_desc">Собираю сайты на Tilda с нуля или дорабатываю
-            существующие — без шаблонной скуки и с продуманной логикой</p>
-        </div>
-        <div class="card tree-column"><span class="icon">code</span>
-          <h3 class="card__title" data-i18n="service_layout_title">Верстка</h3>
-          <p class="card__desc" data-i18n="service_layout_desc">Аккуратная адаптивная верстка, которая нормально
-            работает, а не «почти»</p>
-        </div>
-        <div class="card tree-column"><span class="icon">build</span>
-          <h3 class="card__title" data-i18n="service_development_title">Доработка сайтов</h3>
-          <p class="card__desc" data-i18n="service_development_desc">Исправлю баги, ускорю загрузку, добавлю новый
-            функционал</p>
-        </div>
-        <div class="card tree-column"><span class="icon">settings</span>
-          <h3 class="card__title" data-i18n="service_support_title">Поддержка</h3>
-          <p class="card__desc" data-i18n="service_support_desc">Обновления, правки, помощь после запуска — без игнора
-          </p>
-        </div>
+        <p data-i18n="name">Анастасия М</p>
+        <h1 id="hero-title" class="hero__title" data-i18n="title">Создаю сайты и веб-приложения, которые приносят заявки
+        </h1>
+        <p class="hero__subtitle" data-i18n="subtitle">На Tilda и с кастомной разработкой — без шаблонной скуки и с
+          продуманной логикой</p>
+        <p class="hero__subtitle" data-i18n="desc">
+          Помогаю запустить сайт с нуля или довести до результата: быстрее, понятнее и без лишнего кода
+        </p>
+        <br>
+        <a href="https://t.me/asyalapa" target="_blank" class="btn" data-i18n="write"
+          aria-label="Обсудить проект в Telegram" rel="noopener noreferrer">Обсудить проект</a>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title" data-i18n="portfolio">Портфолио</h2>
-      <div class="grid">
-        <div class="card tree-column">
-          <span class="icon">code</span>
-          <h3 data-i18n="portfolio_project_title">Веб-приложение с кастомным UI</h3>
-          <p class="card__desc" data-i18n="portfolio_desc">Реализован переключатель тем, адаптивный интерфейс и продуманная логика
-            взаимодействия</p>
-          <ul class="portfolio-list">
-            <li class="card__desc" data-i18n="portfolio_li_1">Адаптив под все устройства</li>
-            <li class="card__desc" data-i18n="portfolio_li_2">Оптимизация загрузки</li>
-            <li class="card__desc" data-i18n="portfolio_li_3">Чистый и понятный интерфейс</li>
-          </ul>
-          <a href="./index.html" target="_blank" class="btn" data-i18n="view_project">Смотреть проект</a>
-        </div>
+    <!-- Услуги -->
+    <section class="section" aria-labelledby="services-title">
+      <div class="container">
+        <h2 id="services-title" class="section__title" data-i18n="services">Услуги</h2>
+        <ul class="grid" role="list" aria-label="Список услуг">
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">language</span>
+            <h3 class="card__title" data-i18n="service_full_site_title">
+              Создание сайта под ключ
+            </h3>
+            <p class="card__desc" data-i18n="service_full_site_desc">
+              От структуры до запуска — лендинг, многостраничник или интернет-витрина
+            </p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">web</span>
+            <h3 class="card__title" data-i18n="service_tilda_title">
+              Сайты на Tilda
+            </h3>
+            <p class="card__desc" data-i18n="service_tilda_desc">
+              Собираю сайты на Tilda с нуля или дорабатываю существующие
+            </p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">code</span>
+            <h3 class="card__title" data-i18n="service_layout_title">Вёрстка</h3>
+            <p class="card__desc" data-i18n="service_layout_desc">Аккуратная адаптивная вёрстка, которая нормально
+              работает, а не «почти»</p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">build</span>
+            <h3 class="card__title" data-i18n="service_development_title">Доработка сайтов</h3>
+            <p class="card__desc" data-i18n="service_development_desc">Исправлю баги, ускорю загрузку, добавлю новый
+              функционал</p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">settings</span>
+            <h3 class="card__title" data-i18n="service_support_title">Поддержка</h3>
+            <p class="card__desc" data-i18n="service_support_desc">
+              Обновления, правки, помощь после запуска — без игнора
+            </p>
+          </li>
+        </ul>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title" data-i18n="why">Почему я</h2>
-      <div class="grid">
-        <div class="card tree-column"><span class="icon">schedule</span>
-          <h3 class="card__title" data-i18n="why_fast_title">Быстрое выполнение</h3>
-          <p class="card__desc" data-i18n="why_fast_desc">Не тяну сроки неделями — даю понятные дедлайны и соблюдаю их
-          </p>
-        </div>
-        <div class="card tree-column"><span class="icon">bolt</span>
-          <h3 class="card__title" data-i18n="why_simple_title">Без лишней сложности</h3>
-          <p class="card__desc" data-i18n="why_simple_desc">Не нагружаю проект ненужными решениями — только то, что
-            реально нужно</p>
-        </div>
-        <div class="card tree-column"><span class="icon">chat</span>
-          <h3 class="card__title" data-i18n="why_online_title">Всегда на связи</h3>
-          <p class="card__desc" data-i18n="why_online_desc">Отвечаю без игнора, объясняю простым языком</p>
-        </div>
-        <div class="card tree-column"><span class="icon">favorite</span>
-          <h3 class="card__title" data-i18n="why_myself_title">Делаю как для себя</h3>
-          <p class="card__desc" data-i18n="why_myself_desc">Не «на отвали», а чтобы сайт реально работал и выглядел
-            нормально</p>
-        </div>
+    <!-- Портфолио -->
+    <section class="section" aria-labelledby="portfolio-title">
+      <div class="container">
+        <h2 id="portfolio-title" class="section__title" data-i18n="portfolio">Портфолио</h2>
+        <ul class="grid">
+          <li class="card three-column">
+            <span class="icon" aria-hidden="true">code</span>
+            <h3 data-i18n="portfolio_project_title">Веб-приложение с кастомным UI</h3>
+            <p class="card__desc" data-i18n="portfolio_desc">Реализован переключатель тем, адаптивный интерфейс и
+              продуманная логика взаимодействия</p>
+            <ul class="portfolio-list" aria-label="Особенности проекта">
+              <li class="card__desc" data-i18n="portfolio_li_1">
+                Адаптив под все устройства
+              </li>
+              <li class="card__desc" data-i18n="portfolio_li_2">
+                Оптимизация загрузки
+              </li>
+              <li class="card__desc" data-i18n="portfolio_li_3">
+                Чистый и понятный интерфейс
+              </li>
+            </ul>
+            <a href="./index.html" target="_blank" class="btn" data-i18n="view_project"
+              aria-label="Посмотреть проект веб-приложения" rel="noopener noreferrer">
+              Смотреть проект
+            </a>
+          </li>
+        </ul>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title" data-i18n="price">Стоимость</h2>
-      <div class="grid">
-        <div class="card tree-column"><span class="icon">build</span>
-          <h3 class="card__title" data-i18n="price_rework_title">Доработка</h3>
-          <div class="price" data-i18n="price_rework_value">от 1000 ₽</div>
-          <p class="card__desc" data-i18n="price_rework_desc">(зависит от объема задач)</p>
-        </div>
-        <div class="card tree-column"><span class="icon">language</span>
-          <h3 class="card__title" data-i18n="price_site_title">Создание сайта</h3>
-          <div class="price" data-i18n="price_site_value">от 5000 ₽</div>
-          <p class="card__desc" data-i18n="price_site_desc">(структура, дизайн, адаптация)</p>
-        </div>
-        <div class="card tree-column"><span class="icon">settings</span>
-          <h3 class="card__title" data-i18n="price_support_title">Поддержка</h3>
-          <div class="price" data-i18n="price_support_value">по договорённости</div>
-          <p class="card__desc" data-i18n="price_support_desc">(разовые задачи или абонентка)</p>
-        </div>
+    <!-- Почему я -->
+    <section class="section" aria-labelledby="why-title">
+      <div class="container">
+        <h2 id="why-title" class="section__title" data-i18n="why">Почему я</h2>
+        <ul class="grid" role="list" aria-label="Преимущества работы со мной">
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">schedule</span>
+            <h3 class="card__title" data-i18n="why_fast_title">
+              Быстрое выполнение
+            </h3>
+            <p class="card__desc" data-i18n="why_fast_desc">
+              Не тяну сроки неделями — даю понятные дедлайны и соблюдаю их
+            </p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">bolt</span>
+            <h3 class="card__title" data-i18n="why_simple_title">Без лишней сложности</h3>
+            <p class="card__desc" data-i18n="why_simple_desc">
+              Не нагружаю проект ненужными решениями — только то, что
+              реально нужно
+            </p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">chat</span>
+            <h3 class="card__title" data-i18n="why_online_title">Всегда на связи</h3>
+            <p class="card__desc" data-i18n="why_online_desc">Отвечаю без игнора, объясняю простым языком</p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">favorite</span>
+            <h3 class="card__title" data-i18n="why_myself_title">Делаю как для себя</h3>
+            <p class="card__desc" data-i18n="why_myself_desc">
+              Не «на отвали», а чтобы сайт реально работал и выглядел
+              нормально
+            </p>
+          </li>
+        </ul>
       </div>
-      <p class="note" data-i18n="price_note">Точную стоимость рассчитываю после обсуждения задачи</p>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title" data-i18n="how_it_works">Как проходит работа</h2>
-      <div class="grid">
-        <div class="card four-column">
-          <span class="icon">chat</span>
-          <h3 class="card__title" data-i18n="step_1_title">Обсуждаем задачу</h3>
-          <p class="card__desc" data-i18n="step_1_desc">Уточняю цели, задачи и пожелания по проекту</p>
-        </div>
-        <div class="card four-column">
-          <span class="icon">assignment</span>
-          <h3 class="card__title" data-i18n="step_2_title">Предлагаю решение и сроки</h3>
-          <p class="card__desc" data-i18n="step_2_desc">Готовлю план работ, озвучиваю стоимость и дедлайны</p>
-        </div>
-        <div class="card four-column">
-          <span class="icon">code</span>
-          <h3 class="card__title" data-i18n="step_3_title">Делаю и показываю результат</h3>
-          <p class="card__desc" data-i18n="step_3_desc">Разрабатываю сайт, демонстрирую промежуточные этапы</p>
-        </div>
-        <div class="card four-column">
-          <span class="icon">rocket_launch</span>
-          <h3 class="card__title" data-i18n="step_4_title">Вносим правки и запускаем</h3>
-          <p class="card__desc" data-i18n="step_4_desc">Корректируем детали и публикуем проект</p>
-        </div>
+    <!-- Стоимость -->
+    <section class="section" aria-labelledby="price-title">
+      <div class="container">
+        <h2 id="price-title" class="section__title" data-i18n="price">
+          Стоимость
+        </h2>
+        <ul class="grid" role="list" aria-label="Цены на услуги">
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">build</span>
+            <h3 class="card__title" data-i18n="price_rework_title">Доработка</h3>
+            <div class="price" data-i18n="price_rework_value">от 1000 ₽</div>
+            <p class="card__desc" data-i18n="price_rework_desc">(зависит от объёма задач)</p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">language</span>
+            <h3 class="card__title" data-i18n="price_site_title">Создание сайта</h3>
+            <div class="price" data-i18n="price_site_value">от 5000 ₽</div>
+            <p class="card__desc" data-i18n="price_site_desc">(структура, дизайн, адаптация)</p>
+          </li>
+          <li class="card three-column" role="listitem">
+            <span class="icon" aria-hidden="true">settings</span>
+            <h3 class="card__title" data-i18n="price_support_title">Поддержка</h3>
+            <div class="price" data-i18n="price_support_value">по договорённости</div>
+            <p class="card__desc" data-i18n="price_support_desc">(разовые задачи или абонентка)</p>
+          </li>
+        </ul>
+        <p class="note" data-i18n="price_note">
+          Точную стоимость рассчитываю после обсуждения задачи
+        </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="container">
-      <h2 class="section__title" data-i18n="contacts">Контакты</h2>
-      <p class="section__subtitle" data-i18n="contacts_desc">Напишите мне в Telegram — отвечу, задам пару вопросов и скажу, как лучше реализовать
-        ваш проект</p>
-      <div class="grid">
-        <a href="https://t.me/asyalapa" class="card contacts__link">
-          <span class="icon">send</span>
-        </a>
-        <a href="mailto:asyalapa@mail.ru" class="card contacts__link">
-          <span class="icon">mail</span>
-        </a>
+    <!-- Как проходит работа -->
+    <section class="section" aria-labelledby="how-title">
+      <div class="container">
+        <h2 id="how-title" class="section__title" data-i18n="how_it_works">Как проходит работа</h2>
+        <ul class="grid" role="list" aria-label="Этапы работы">
+          <li class="card four-column" role="listitem">
+            <span class="icon" aria-hidden="true">chat</span>
+            <h3 class="card__title" data-i18n="step_1_title">Обсуждаем задачу</h3>
+            <p class="card__desc" data-i18n="step_1_desc">Уточняю цели, задачи и пожелания по проекту</p>
+          </li>
+          <li class="card four-column" role="listitem">
+            <span class="icon" aria-hidden="true">assignment</span>
+            <h3 class="card__title" data-i18n="step_2_title">Предлагаю решение и сроки</h3>
+            <p class="card__desc" data-i18n="step_2_desc">Готовлю план работ, озвучиваю стоимость и дедлайны</p>
+          </li>
+          <li class="card four-column" role="listitem">
+            <span class="icon" aria-hidden="true">code</span>
+            <h3 class="card__title" data-i18n="step_3_title">Делаю и показываю результат</h3>
+            <p class="card__desc" data-i18n="step_3_desc">Разрабатываю сайт, демонстрирую промежуточные этапы</p>
+          </li>
+          <li class="card four-column" role="listitem">
+            <span class="icon" aria-hidden="true">rocket_launch</span>
+            <h3 class="card__title" data-i18n="step_4_title">Вносим правки и запускаем</h3>
+            <p class="card__desc" data-i18n="step_4_desc">Корректируем детали и публикуем проект</p>
+          </li>
+        </ul>
       </div>
-      <p class="note" data-i18n="contacts_footer">Работаю аккуратно, соблюдаю сроки и всегда довожу задачу до результата</p>
-    </div>
-  </section>
+    </section>
 
-  <a href="https://t.me/asyalapa_bot" class="floating-tg">
-    <span class="material-symbols-outlined">send</span>
+    <!-- Контакты -->
+    <section class="section" aria-labelledby="contacts-title">
+      <div class="container">
+        <h2 id="contacts-title" class="section__title" data-i18n="contacts">Контакты</h2>
+        <p class="section__subtitle" data-i18n="contacts_desc">
+          Напишите мне в Telegram — отвечу, задам пару вопросов и
+          скажу, как лучше реализовать ваш проект
+        </p>
+        <ul class="grid" role="group" aria-label="Способы связи">
+          <li class="card">
+            <a href="https://t.me/asyalapa" class="card contacts__link" aria-label="Написать в Telegram" target="_blank"
+              rel="noopener noreferrer">
+              <span class="icon" aria-hidden="true">send</span>
+            </a>
+          </li>
+          <li class="card">
+            <a href="mailto:asyalapa@mail.ru" class="card contacts__link"
+              aria-label="Отправить письмо на почту asyalapa@mail.ru">
+              <span class="icon" aria-hidden="true">mail</span>
+            </a>
+          </li>
+        </ul>
+        <p class="note" data-i18n="contacts_footer">
+          Работаю аккуратно, соблюдаю сроки и всегда довожу задачу до
+          результата
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Фиксированная кнопка Telegram-бота -->
+  <a href="https://t.me/asyalapa_bot" class="floating-tg" aria-label="Связаться с ботом в Telegram" target="_blank"
+    rel="noopener noreferrer">
+    <span class="material-symbols-outlined" aria-hidden="true">send</span>
   </a>
 
+  <!-- Scroll кнопки (top / bottom) -->
+  <div class="scroll-group">
+    <div class="scroll-btn scroll-top" onclick="scrollToTop()" role="button" tabindex="0" aria-label="Прокрутить вверх">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_upward</span>
+    </div>
+    <div class="scroll-btn scroll-bottom" onclick="scrollToBottom()" role="button" tabindex="0"
+      aria-label="Прокрутить вниз">
+      <span class="material-symbols-outlined" aria-hidden="true">arrow_downward</span>
+    </div>
+  </div>
+
+  <!-- Подвал -->
   <footer class="footer">
     <p>© Asyalapa, 2026</p>
   </footer>
 
-  <script src="index.js"></script>
+  <script type="module" src="index.js" defer></script>
 </body>
 
 </html>

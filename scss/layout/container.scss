@@ -1,0 +1,8 @@
+@use "../variables" as v;
+
+.container {
+  max-width: v.$container-max-width;
+  margin: 0 auto;
+  padding: v.$container-padding;
+  z-index: 10;
+}

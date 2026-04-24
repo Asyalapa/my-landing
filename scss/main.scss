@@ -1,0 +1,33 @@
+// 1. Переменные и миксины
+@use "variables";
+@use "mixins";
+
+// 2. База
+@use "base";
+
+// 3. Темы
+@use "themes/dark";
+@use "themes/light";
+
+// 4. Layout
+@use "layout/container";
+@use "layout/grid";
+@use "layout/cursor";
+
+// 5. Компоненты
+@use "components/buttons";
+@use "components/scroll";
+@use "components/cards";
+@use "components/toggle";
+@use "components/floating-tg";
+@use "components/icons";
+@use "components/loader.scss";
+
+// 6. Секции
+@use "sections/section";
+@use "sections/hero";
+@use "sections/portfolio";
+@use "sections/contacts";
+
+// 7. Утилиты
+@use "utils/footer";

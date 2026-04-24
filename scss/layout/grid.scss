@@ -1,0 +1,39 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.grid {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: v.$gap;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.three-column {
+  flex: 1 1 calc(33.333% - v.$gap);
+  min-width: 250px;
+}
+
+.four-column {
+  flex: 1 1 calc(25% - v.$gap);
+  min-width: 200px;
+}
+
+@include m.tablet {
+  .three-column {
+    flex-basis: calc(50% - v.$gap);
+  }
+  .four-column {
+    flex-basis: calc(33.333% - v.$gap);
+  }
+}
+
+@include m.mobile {
+  .three-column,
+  .four-column {
+    flex-basis: 100%;
+  }
+}

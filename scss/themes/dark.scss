@@ -1,0 +1,12 @@
+@use "../variables" as v;
+
+body {
+  --bg: #{v.$bg-dark};
+  --bg2: #{v.$bg2-dark};
+  --text: #{v.$text-dark};
+  --card: #{v.$card-dark};
+  --border: #{v.$border-dark};
+  --shadow-color: #{v.$shadow-dark};
+  --accent: #{v.$accent};
+  --accent2: #{v.$accent2};
+}

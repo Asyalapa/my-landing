@@ -1,0 +1,41 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.contacts__link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform v.$transition-base;
+
+  @include m.hover {
+    transform: translateY(-4px);
+  }
+
+  .icon {
+    font-size: 32px;
+    margin-bottom: 0;
+  }
+}
+
+// Секция контактов
+.contacts {
+  .grid {
+    justify-content: center;
+  }
+
+  .card {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+
+    @include m.mobile {
+      width: 60px;
+      height: 60px;
+    }
+  }
+}

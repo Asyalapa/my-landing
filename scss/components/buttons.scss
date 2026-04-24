@@ -1,0 +1,49 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.btn {
+  display: inline-block;
+  padding: 14px 24px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color: #000;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    transform v.$transition-base,
+    box-shadow v.$transition-base,
+    background v.$transition-base, 
+    border v.$transition-base;
+  cursor: pointer;
+  border: none;
+
+  @include m.hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px var(--shadow-color);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+@media (hover: none) {
+  .btn:hover {
+    transform: none;
+  }
+}
+
+// Магнитная кнопка (дополнительный класс)
+.btn-magnetic {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+// Glow эффект при наведении
+.btn-glow {
+  @include m.hover {
+    box-shadow:
+      0 0 20px rgba(var(--accent-rgb), 0.5),
+      0 8px 20px var(--shadow-color);
+  }
+}

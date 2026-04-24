@@ -1,0 +1,82 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+.card {
+  position: relative; // важно для псевдоэлемента
+  text-align: center;
+  background: var(--card);
+  border-radius: v.$border-radius;
+  padding: v.$card-padding;
+  border: 1px solid var(--border);
+  transition: 
+    box-shadow v.$transition-base,
+    background v.$transition-base, 
+    border v.$transition-base;
+  overflow: hidden; // прячем вылезающую анимацию
+
+  @include m.hover {
+    box-shadow:
+    0 0 20px rgba(100, 245, 233, 0.2),
+    0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  // 🔥 Эффект бегущей искры
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: v.$border-radius;
+    padding: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--accent),
+      var(--accent2),
+      var(--accent),
+      transparent
+    );
+    mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  @include m.hover {
+    &::before {
+      opacity: 1;
+      animation: spark 0.8s ease-in-out forwards;
+    }
+  }
+}
+
+@keyframes spark {
+  0% {
+    mask-position: -200% 0;
+  }
+  100% {
+    mask-position: 200% 0;
+  }
+}
+
+.card__desc {
+  opacity: 0.8;
+}
+
+.price {
+  font-size: 22px;
+  color: var(--accent2);
+  font-weight: bold;
+}
+
+.note {
+  text-align: center;
+  opacity: 0.6;
+}
+
+@media (hover: none) {
+  .card:hover {
+    box-shadow: none;
+  }
+}
