@@ -4,34 +4,34 @@
 .toggle,
 .lang {
   position: fixed;
-  top: 20px;
+  top: v.$toggle-top;
   width: v.$toggle-size;
   height: v.$toggle-size;
   @include m.flex-center;
   background: var(--card);
-  border-radius: 10px;
+  border: 1px solid var(--border);
+  border-radius: v.$toggle-border-radius;
   cursor: pointer;
   transition:
     transform v.$transition-bounce,
     opacity v.$transition-base,
     background v.$transition-base,
-    border v.$transition-base;
+    box-shadow v.$transition-base;
   z-index: 1000;
 
-  // Ховер эффект
   @include m.hover {
     &:hover {
       transform: translateY(-2px);
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       box-shadow: 0 4px 12px var(--shadow-color);
 
-      .material-symbols-outlined {
+      .material-symbols-outlined,
+      .lang-label {
         color: #000;
       }
     }
   }
 
-  // Активное состояние
   &:active {
     transform: translateY(0px) scale(0.95);
   }
@@ -44,36 +44,25 @@
 }
 
 .toggle {
-  right: 20px;
+  right: v.$toggle-right;
 }
 
 .lang {
-  right: 70px;
+  right: v.$lang-right;
 }
 
-// Иконки внутри кнопок
-.toggle,
-.lang {
-  .material-symbols-outlined {
-    transition: color v.$transition-base;
-  }
-}
-
-// Иконка темы
 .material-symbols-outlined {
-  transition: color 0.3s ease;
+  transition: color v.$transition-base;
 }
 
-// Текстовая метка языка
 .lang-label {
   font-size: 18px;
   font-weight: 700;
   color: var(--text);
-  transition: color 0.3s ease;
+  transition: color v.$transition-base;
 }
 
-// На тач-устройствах
-@media (pointer: coarse) {
+@include m.touch {
   .toggle:hover,
   .lang:hover {
     transform: none;

@@ -2,23 +2,22 @@
 @use "../mixins" as m;
 
 .hero {
-  padding: 80px 20px 100px;
+  padding: v.$hero-padding;
   text-align: center;
 }
 
 .hero__avatar {
   display: flex;
   justify-content: center;
-  margin-bottom: 24px;
+  margin-bottom: v.$hero-avatar-margin;
 }
 
 .hero__avatar-img {
-  width: 170px;
-  height: 220px;
+  width: v.$hero-avatar-width;
+  height: v.$hero-avatar-height;
   object-fit: cover;
   background: var(--card);
   border-radius: v.$border-radius;
-  padding: 0;
   border: 1px solid var(--border);
   box-shadow: 0 8px 20px var(--shadow-color);
   transition:
@@ -26,27 +25,37 @@
     box-shadow v.$transition-base;
 
   @include m.hover {
-    transform: scale(1.02);
-    box-shadow: 0 12px 28px var(--shadow-color);
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 28px var(--shadow-color);
+    }
   }
 }
 
 .hero__title {
-  font-size: 42px;
-  margin-bottom: 16px;
-
+  font-size: v.$hero-title-size-desktop;
+  margin-bottom: v.$hero-title-margin;
+  letter-spacing: v.$title-letter-spacing;
+  
   @include m.tablet {
-    font-size: 32px;
+    font-size: v.$hero-title-size-tablet;
+    letter-spacing: v.$title-letter-spacing-tablet;
   }
-
+  
   @include m.mobile {
-    font-size: 28px;
+    font-size: v.$hero-title-size-mobile;
+    letter-spacing: v.$title-letter-spacing-mobile;
   }
 }
 
 .hero__subtitle {
   opacity: 0.8;
-  max-width: 600px;
+  max-width: v.$hero-subtitle-max-width;
   margin-left: auto;
   margin-right: auto;
+  letter-spacing: v.$text-letter-spacing;
+  
+  @include m.mobile {
+    letter-spacing: v.$text-letter-spacing-mobile;
+  }
 }

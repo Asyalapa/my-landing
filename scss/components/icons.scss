@@ -1,7 +1,8 @@
-// Иконки по умолчанию скрыты
+@use "../variables" as v;
+
 .icon {
   font-family: "Material Symbols Outlined";
-  font-size: 36px;
+  font-size: v.$card-icon-size;
   margin-bottom: 10px;
   display: inline-block;
   opacity: 0;
@@ -10,17 +11,15 @@
     opacity 0.2s ease,
     transform 0.2s ease;
 
-  // Когда иконки загружены — появляются
   &.loaded {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-// Скелетон-заглушка (пока иконки не загрузились)
 .icon-placeholder {
-  width: 36px;
-  height: 36px;
+  width: v.$card-icon-size;
+  height: v.$card-icon-size;
   margin-bottom: 10px;
   border-radius: 8px;
   background: linear-gradient(
@@ -40,5 +39,36 @@
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid transparent;
+  border-top: 3px solid var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
   }
 }

@@ -3,14 +3,14 @@
 
 .portfolio-list {
   list-style: none;
-  padding-left: 0;
-  margin-top: 16px;
-  margin-bottom: 20px;
+  padding-left: v.$portfolio-list-padding;
+  margin: v.$portfolio-list-margin;
+  text-align: left;
 
   li {
-    margin-bottom: 8px;
+    margin-bottom: v.$portfolio-item-margin;
     position: relative;
-    padding-left: 20px;
+    padding-left: v.$portfolio-bullet-padding;
 
     &::before {
       content: "✓";

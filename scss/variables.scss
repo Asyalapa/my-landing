@@ -24,12 +24,118 @@ $mobile: 450px;
 $tablet: 768px;
 $desktop: 1100px;
 
-// ===== ОТСТУПЫ =====
+// ===== ОТСТУПЫ (ГЛОБАЛЬНЫЕ) =====
 $container-padding: 20px;
 $container-max-width: 1100px;
 $gap: 20px;
-$card-padding: 20px;
+$card-padding: 28px 20px;
 $border-radius: 16px;
+
+// ===== ОТСТУПЫ СЕКЦИЙ =====
+$section-padding-desktop: 0 0 80px;
+$section-padding-tablet: 0 0 60px;
+$section-padding-mobile: 0 0 40px;
+$section-gap: 30px;
+
+// ===== ЗАГОЛОВКИ СЕКЦИЙ =====
+$title-size-desktop: 48px;
+$title-size-tablet: 36px;
+$title-size-mobile: 32px;
+$title-margin-bottom: 40px;
+$title-letter-spacing: -0.5px;
+$title-letter-spacing-tablet: -0.3px;
+$title-letter-spacing-mobile: -0.2px;
+
+// ===== ЗАГОЛОВКИ КАРТОЧЕК =====
+$card-title-size-desktop: 24px;
+$card-title-size-tablet: 20px;   // (36/1.8)
+$card-title-size-mobile: 18px;   // (32/1.78)
+$card-title-margin: 12px;
+$card-title-weight: 600;
+$card-title-letter-spacing: -0.3px; 
+$card-title-letter-spacing-tablet: -0.2px;
+$card-title-letter-spacing-mobile: -0.1px;
+
+// ===== ТЕКСТ В КАРТОЧКАХ =====
+$card-text-size-desktop: 16px;   // на 8px меньше заголовка карточки
+$card-text-size-tablet: 15px;    // на 5px меньше
+$card-text-size-mobile: 14px;    // на 4px меньше
+$card-text-letter-spacing: 0.2px;
+$card-text-line-height: 1.5;
+$card-text-opacity: 0.8;
+
+// ===== ТЕКСТ =====
+$text-line-height: 1.6;
+$text-paragraph-margin: 16px;
+$text-letter-spacing: 0.3px;
+$text-letter-spacing-mobile: 0.2px;
+
+// ===== КАРТОЧКИ =====
+$card-title-margin: 12px;
+$card-desc-line-height: 1.5;
+$card-icon-size: 36px;
+
+// ===== ГЕРО =====
+$hero-padding: 80px 20px 100px;
+$hero-avatar-margin: 24px;
+$hero-avatar-width: 170px;
+$hero-avatar-height: 220px;
+$hero-title-size-desktop: 42px;
+$hero-title-size-tablet: 32px;
+$hero-title-size-mobile: 28px;
+$hero-title-margin: 16px;
+$hero-subtitle-max-width: 600px;
+
+// ===== ПОРТФОЛИО =====
+$portfolio-list-padding: 20px;
+$portfolio-list-margin: 16px 0 24px;
+$portfolio-item-margin: 10px;
+$portfolio-bullet-padding: 24px;
+
+// ===== КНОПКИ =====
+$btn-padding: 14px 24px;
+$btn-border-radius: 10px;
+$btn-hover-transform: scale(1.02);
+$btn-active-transform: scale(0.98);
+
+// ===== КОНТАКТЫ =====
+$contacts-card-size: 80px;
+$contacts-card-size-mobile: 60px;
+$contacts-subtitle-max-width: 700px;
+$contacts-margin: 40px;
+
+// ===== ЦЕНЫ =====
+$price-font-size-desktop: 22px;   // было 28px, теперь меньше заголовка карточки (24px)
+$price-font-size-tablet: 20px;    // заголовок карточки на планшете 20px
+$price-font-size-mobile: 18px;    // заголовок карточки на мобилке 18px
+$price-margin: 12px 0 8px;
+$price-letter-spacing: 0.5px;     // добавим лёгкое прореживание для цен
+$note-max-width: 600px;
+$note-margin: 40px auto 0;
+
+// ===== КНОПКИ ТЕМЫ/ЯЗЫКА/СКРОЛЛА =====
+$toggle-size: 44px;
+$toggle-top: 20px;
+$toggle-right: 20px;
+$lang-right: 70px;
+$toggle-gap: 10px;
+$toggle-border-radius: 10px;
+
+// ===== КНОПКА TELEGRAM =====
+$floating-size: 60px;
+$floating-bottom: 80px;
+$floating-right: 40px;
+
+// ===== КУРСОР =====
+$cursor-size: 20px;
+$cursor-opacity: 0.25;
+$cursor-z-index: 9999;
+
+// ===== ПАРАЛЛАКС =====
+$parallax-top-start: -20%;
+$parallax-height: 120%;
+$parallax-opacity-desktop: 0.5;
+$parallax-opacity-tablet: 0.2;
 
 // ===== АНИМАЦИИ =====
 $transition-fast: 0.2s ease;
@@ -37,7 +143,16 @@ $transition-base: 0.3s ease;
 $transition-slow: 0.6s ease;
 $transition-bounce: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-// ===== РАЗМЕРЫ =====
-$toggle-size: 44px;
-$floating-size: 60px;
-$cursor-size: 20px;
+// ===== СКРОЛЛ КНОПКИ =====
+$scroll-btn-size: 44px;
+$scroll-btn-bottom: 20px;
+$scroll-btn-right: 20px;
+$scroll-btn-gap: 10px;
+$scroll-btn-icon-size: 24px;
+$scroll-visible-offset: 300px;
+
+// ===== ФУТЕР =====
+$footer-padding: 40px 0;
+$footer-padding-mobile: 30px 0;
+$footer-font-size: 14px;
+$footer-font-size-mobile: 12px;

@@ -1,73 +1,59 @@
-@use '../variables' as v;
-@use '../mixins' as m;
+@use "../variables" as v;
+@use "../mixins" as m;
 
-// Группа кнопок скролла (горизонтально, как кнопки темы/языка)
 .scroll-group {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: v.$scroll-btn-bottom;
+  right: v.$scroll-btn-right;
   display: flex;
-  gap: 10px;
+  gap: v.$scroll-btn-gap;
   z-index: 1000;
-  
-  // На тач-устройствах скрываем
+
   @include m.touch {
     display: none;
   }
 }
 
 .scroll-btn {
-  width: 44px;
-  height: 44px;
+  width: v.$scroll-btn-size;
+  height: v.$scroll-btn-size;
   background: var(--card);
-  // border: 1px solid var(--border);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: v.$toggle-border-radius;
+  @include m.flex-center;
   cursor: pointer;
-  transition: transform v.$transition-base, 
-              background v.$transition-base, 
-              box-shadow v.$transition-base,
-              opacity v.$transition-base;
+  transition:
+    transform v.$transition-base,
+    background v.$transition-base,
+    box-shadow v.$transition-base,
+    opacity v.$transition-base;
   opacity: 0;
   pointer-events: none;
-  
-  // Иконка внутри
+
   .material-symbols-outlined {
-    font-size: 24px;
+    font-size: v.$scroll-btn-icon-size;
     color: var(--text);
     transition: color v.$transition-base;
   }
-  
-  // Ховер эффект
+
   @include m.hover {
     &:hover {
       transform: translateY(-2px);
       background: linear-gradient(135deg, var(--accent), var(--accent2));
       box-shadow: 0 4px 12px var(--shadow-color);
-      
+
       .material-symbols-outlined {
         color: #000;
       }
     }
   }
-  
-  // Активное состояние (нажатие)
+
   &:active {
     transform: translateY(0px) scale(0.95);
   }
-  
-  // Видимость
+
   &.visible {
     opacity: 1;
     pointer-events: auto;
-  }
-}
-
-// Иконки внутри кнопок
-.scroll-btn {
-  .material-symbols-outlined {
-    transition: color v.$transition-base;
   }
 }

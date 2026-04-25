@@ -1,7 +1,8 @@
 @use "../variables" as v;
+@use "../mixins" as m;
 
 .section {
-  padding: 60px 0;
+  padding: v.$section-padding-desktop;
   opacity: 0;
   transform: translateY(40px);
   transition: v.$transition-slow;
@@ -14,15 +15,48 @@
 
 .section__title {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: v.$title-margin-bottom;
+  font-size: v.$title-size-desktop;
+  font-weight: 700;
+  letter-spacing: v.$title-letter-spacing;
+  
+  @include m.tablet {
+    font-size: v.$title-size-tablet;
+    margin-bottom: 30px;
+    letter-spacing: v.$title-letter-spacing-tablet;
+  }
+  
+  @include m.mobile {
+    font-size: v.$title-size-mobile;
+    margin-bottom: 24px;
+    letter-spacing: v.$title-letter-spacing-mobile;
+  }
 }
 
 .section__subtitle {
   text-align: center;
   opacity: 0.8;
+  max-width: v.$contacts-subtitle-max-width;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: v.$contacts-margin;
 }
-@media (max-width: 768px) {
+
+.section + .section {
+  padding-top: v.$section-gap;
+}
+
+@include m.tablet {
   .section {
-    padding: 40px 0;
+    padding: v.$section-padding-tablet;
+  }
+  .section + .section {
+    padding-top: 20px;
+  }
+}
+
+@include m.mobile {
+  .section {
+    padding: v.$section-padding-mobile;
   }
 }

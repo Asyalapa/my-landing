@@ -1,0 +1,13 @@
+.price {
+  font-size: 28px;            // было 22px
+  color: var(--accent2);
+  font-weight: bold;
+  margin: 12px 0 8px;
+}
+
+.note {
+  text-align: center;
+  opacity: 0.6;
+  max-width: 600px;
+  margin: 40px auto 0;        // равноудалённо
+}

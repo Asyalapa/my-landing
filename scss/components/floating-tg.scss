@@ -3,8 +3,8 @@
 
 .floating-tg {
   position: fixed;
-  bottom: 80px;
-  right: 20px;
+  bottom: v.$floating-bottom;
+  right: v.$floating-right;
   width: v.$floating-size;
   height: v.$floating-size;
   border-radius: 50%;
@@ -13,8 +13,21 @@
   text-decoration: none;
   color: #000;
   z-index: 1000;
+  transition:
+    transform v.$transition-base,
+    box-shadow v.$transition-base;
+  will-change: transform;
 
   @include m.hover {
-    transform: scale(1.05);
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
   }
+}
+
+// Магнитный эффект для кнопки бота
+.floating-tg-magnetic {
+  transition: transform 0.15s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  will-change: transform;
 }

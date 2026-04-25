@@ -154,12 +154,12 @@ const translations = {
 function updateThemeIcon() {
   const themeIcon = document.getElementById('theme-icon');
   if (!themeIcon) return;
-  
+
   const isLight = document.body.classList.contains('light');
   themeIcon.textContent = isLight ? 'light_mode' : 'dark_mode';
 }
 
-window.toggleTheme = function() {
+window.toggleTheme = function () {
   const isLight = document.body.classList.toggle('light');
   localStorage.setItem(STORAGE_KEYS.theme, isLight ? 'light' : 'dark');
   updateThemeIcon(); // ← добавить эту строку
@@ -169,11 +169,11 @@ window.toggleTheme = function() {
 function updateLangLabel() {
   const langLabel = document.getElementById('lang-label');
   if (!langLabel) return;
-  
+
   langLabel.textContent = AppState.currentLang === 'ru' ? 'RU' : 'EN';
 }
 
-window.toggleLanguage = function() {
+window.toggleLanguage = function () {
   AppState.currentLang = AppState.currentLang === 'ru' ? 'en' : 'ru';
   localStorage.setItem(STORAGE_KEYS.lang, AppState.currentLang);
   applyTranslations();
@@ -459,6 +459,7 @@ function initApp() {
   initLazyIcons();
   initSectionAnimations();
   initHorizontalScroll();
+  initMagneticButtons();
   updateParallax();
 }
 
@@ -483,3 +484,86 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('load', () => {
   initLazyIcons(); // fallback
 });
+
+// ========== МАГНИТНЫЕ КНОПКИ ==========
+function initMagneticButtons() {
+  // Только кнопки в потоке (не fixed/absolute)
+  const btns = document.querySelectorAll('.btn:not(.floating-tg)');
+
+  // Для плавающей кнопки сделаем отдельный, более лёгкий эффект
+  const floatingTg = document.querySelector('.floating-tg');
+
+  const contactCards = document.querySelectorAll('.contact__card');
+  contactCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      const moveX = Math.min(Math.max(x * 0.15, -5), 5);
+      const moveY = Math.min(Math.max(y * 0.15, -5), 5);
+
+      card.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  // Функция для обычных кнопок (с ограничением смещения)
+  function addMagneticEffect(element) {
+    if (!element) return;
+
+    element.addEventListener('mousemove', (e) => {
+      const rect = element.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      // Ограничиваем максимальное смещение
+      const moveX = Math.min(Math.max(x * 0.08, -6), 6);
+      const moveY = Math.min(Math.max(y * 0.08, -6), 6);
+
+      element.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    });
+
+    element.addEventListener('mouseleave', () => {
+      element.style.transform = '';
+    });
+  }
+
+  // Для плавающей кнопки — только лёгкий scale при наведении, без смещения
+  if (floatingTg) {
+    floatingTg.addEventListener('mousemove', (e) => {
+      floatingTg.style.transform = 'scale(1.15)';
+    });
+
+    floatingTg.addEventListener('mouseleave', () => {
+      floatingTg.style.transform = '';
+    });
+  }
+
+  // Добавляем эффект для обычных кнопок
+  btns.forEach(addMagneticEffect);
+
+  // Для кнопок в карточках — особенно аккуратно
+  const cardBtns = document.querySelectorAll('.card .btn');
+  cardBtns.forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+      e.stopPropagation(); // чтобы не конфликтовало с эффектом карточки
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      // Очень слабое смещение для кнопок внутри карточек
+      const moveX = Math.min(Math.max(x * 0.05, -3), 3);
+      const moveY = Math.min(Math.max(y * 0.05, -3), 3);
+
+      btn.style.transform = `translate(${moveX}px, ${moveY}px) scale(1.02)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+}

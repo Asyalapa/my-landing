@@ -1,0 +1,63 @@
+@use "../variables" as v;
+@use "../mixins" as m;
+
+// Только стили для кнопок контактов
+.contact__card {
+  width: v.$contacts-card-size;
+  height: v.$contacts-card-size;
+  list-style: none;
+  display: block;
+
+  @include m.mobile {
+    width: v.$contacts-card-size-mobile;
+    height: v.$contacts-card-size-mobile;
+  }
+}
+
+.contact__card-inner {
+  width: 100%;
+  height: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: v.$toggle-border-radius;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform v.$transition-base,
+    background v.$transition-base,
+    box-shadow v.$transition-base;
+  cursor: pointer;
+
+  @include m.hover {
+    &:hover {
+      transform: translateY(-4px) scale(1.02);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 4px 12px var(--shadow-color);
+
+      .material-symbols-outlined {
+        color: #000;
+      }
+    }
+  }
+}
+
+.contact__link {
+  text-decoration: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+
+  .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 0;
+    transition: color v.$transition-base;
+
+    @include m.mobile {
+      font-size: 28px;
+    }
+  }
+}

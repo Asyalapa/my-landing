@@ -1,5 +1,5 @@
-@use "variables" as v;
-@use "mixins" as m;
+@use 'variables' as v;
+@use 'mixins' as m;
 
 * {
   margin: 0;
@@ -18,28 +18,26 @@ body {
   @include m.noise-overlay;
 }
 
-// Фоновый параллакс на всю страницу
 body::before {
   content: "";
   position: fixed;
-  top: -20%; // Сдвигаем вверх, чтобы верх картинки был скрыт
+  top: v.$parallax-top-start;
   left: 0;
   width: 100%;
-  height: 120%; // Выше, чтобы при скролле не было пустоты
+  height: v.$parallax-height;
   background-image: url("../images/dark-fon.webp");
   background-size: cover;
-  background-position: top center; // Фокусируемся на верхней части картинки
+  background-position: top center;
   background-repeat: no-repeat;
-  opacity: 0.5;
+  opacity: v.$parallax-opacity-desktop;
   pointer-events: none;
   z-index: -2;
-  transition:
-    background-image v.$transition-base,
-    opacity v.$transition-base,
-    background v.$transition-base,
-    color v.$transition-base;
+  transition: background-image v.$transition-base, 
+              opacity v.$transition-base,
+              background v.$transition-base,
+              color v.$transition-base;
   will-change: transform;
-  top: var(--parallax-top, -20%);
+  top: var(--parallax-top, v.$parallax-top-start);
 }
 
 body * {
@@ -53,28 +51,38 @@ body.light::before {
   opacity: 0.3;
 }
 
-// Отключаем параллакс на тач-устройствах
 @include m.touch {
   body::before {
     background-attachment: scroll;
-    opacity: 0.2;
+    opacity: v.$parallax-opacity-tablet;
     top: 0;
     height: 100%;
   }
 }
 
-// Плавное появление изображений после загрузки
 img {
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity v.$transition-base;
 
   &.loaded {
     opacity: 1;
   }
 }
 
-// Заглушка для изображений (пока не загрузились)
 img[data-src] {
   background: var(--card);
   min-height: 100px;
+}
+
+p, .card__desc, .hero__subtitle {
+  line-height: v.$text-line-height;
+  letter-spacing: v.$text-letter-spacing;
+  
+  @include m.mobile {
+    letter-spacing: v.$text-letter-spacing-mobile;
+  }
+}
+
+p + p {
+  margin-top: v.$text-paragraph-margin;
 }

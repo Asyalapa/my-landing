@@ -2,27 +2,28 @@
 @use "../mixins" as m;
 
 .card {
-  position: relative; // важно для псевдоэлемента
+  position: relative;
   text-align: center;
   background: var(--card);
   border-radius: v.$border-radius;
   padding: v.$card-padding;
   border: 1px solid var(--border);
-  transition: 
+  transition:
     box-shadow v.$transition-base,
-    background v.$transition-base, 
+    background v.$transition-base,
     border v.$transition-base;
-  overflow: hidden; // прячем вылезающую анимацию
+  overflow: hidden;
 
   @include m.hover {
-    box-shadow:
-    0 0 20px rgba(100, 245, 233, 0.2),
-    0 10px 30px rgba(0,0,0,0.2);
+    &:hover {
+      box-shadow:
+        0 0 20px rgba(v.$accent, 0.2),
+        0 10px 30px rgba(0, 0, 0, 0.2);
+    }
   }
 
-  // 🔥 Эффект бегущей искры
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     border-radius: v.$border-radius;
@@ -35,8 +36,8 @@
       var(--accent),
       transparent
     );
-    mask: 
-      linear-gradient(#fff 0 0) content-box, 
+    mask:
+      linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     mask-composite: exclude;
     opacity: 0;
@@ -44,7 +45,7 @@
   }
 
   @include m.hover {
-    &::before {
+    &:hover::before {
       opacity: 1;
       animation: spark 0.8s ease-in-out forwards;
     }
@@ -60,23 +61,57 @@
   }
 }
 
+.card__title {
+  margin-bottom: v.$card-title-margin;
+  font-weight: v.$card-title-weight;
+  font-size: v.$card-title-size-desktop;
+  letter-spacing: v.$card-title-letter-spacing;
+
+  @include m.tablet {
+    font-size: v.$card-title-size-tablet;
+    letter-spacing: v.$card-title-letter-spacing-tablet;
+  }
+
+  @include m.mobile {
+    font-size: v.$card-title-size-mobile;
+    letter-spacing: v.$card-title-letter-spacing-mobile;
+  }
+}
+
 .card__desc {
-  opacity: 0.8;
+  opacity: v.$card-text-opacity;
+  line-height: v.$card-text-line-height;
+  font-size: v.$card-text-size-desktop;
+  letter-spacing: v.$card-text-letter-spacing;
+
+  @include m.tablet {
+    font-size: v.$card-text-size-tablet;
+  }
+
+  @include m.mobile {
+    font-size: v.$card-text-size-mobile;
+  }
 }
 
 .price {
-  font-size: 22px;
+  font-size: v.$price-font-size-desktop;
   color: var(--accent2);
   font-weight: bold;
+  margin: v.$price-margin;
+  letter-spacing: v.$price-letter-spacing;
+
+  @include m.tablet {
+    font-size: v.$price-font-size-tablet;
+  }
+
+  @include m.mobile {
+    font-size: v.$price-font-size-mobile;
+  }
 }
 
 .note {
   text-align: center;
   opacity: 0.6;
-}
-
-@media (hover: none) {
-  .card:hover {
-    box-shadow: none;
-  }
+  max-width: v.$note-max-width;
+  margin: v.$note-margin;
 }
